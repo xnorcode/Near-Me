@@ -1,7 +1,5 @@
 <resources>
-    <string name="app_name">NearMe</string>
 
-    <!-- YOUR GOOGLE API KEY HERE -->
-    <string name="google_api_key">API KEY HERE</string>
+    <string name="app_name">NearMe</string>
 
 </resources>
