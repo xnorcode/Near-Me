@@ -2,7 +2,7 @@ package com.nearme.data.source.remote;
 
 import java.io.IOException;
 
-import okhttp3.Response;
+import okhttp3.Call;
 
 /**
  * Created by xnorcode on 06/04/2018.
@@ -17,7 +17,7 @@ public interface GooglePlacesApiHelper {
      * @return OkHttp network call response
      * @throws IOException for network call
      */
-    Response getNearbyBars(double lat, double lng) throws IOException;
+    Call getNearbyBars(double lat, double lng) throws IOException;
 
 
     /**
@@ -25,6 +25,6 @@ public interface GooglePlacesApiHelper {
      * @return OkHttp network call response
      * @throws IOException for network call
      */
-    Response searchPlace(String name) throws IOException;
+    Call searchPlace(String name) throws IOException;
 
 }

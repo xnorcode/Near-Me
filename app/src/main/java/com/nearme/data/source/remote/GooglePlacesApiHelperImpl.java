@@ -4,9 +4,9 @@ import com.nearme.data.source.remote.utils.UrlBuilder;
 
 import java.io.IOException;
 
+import okhttp3.Call;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.Response;
 
 /**
  * Created by xnorcode on 06/04/2018.
@@ -38,7 +38,7 @@ public class GooglePlacesApiHelperImpl implements GooglePlacesApiHelper {
      * @throws IOException for network call
      */
     @Override
-    public Response getNearbyBars(double lat, double lng) throws IOException {
+    public Call getNearbyBars(double lat, double lng) throws IOException {
         // create url
         String url = UrlBuilder.nearbyBarsUrl(lat, lng, apiKey).toString();
         // init OKHttp client
@@ -46,7 +46,7 @@ public class GooglePlacesApiHelperImpl implements GooglePlacesApiHelper {
         // create request
         Request request = new Request.Builder().url(url).build();
         // execute network request call
-        return client.newCall(request).execute();
+        return client.newCall(request);
     }
 
 
@@ -58,14 +58,14 @@ public class GooglePlacesApiHelperImpl implements GooglePlacesApiHelper {
      * @throws IOException for network call
      */
     @Override
-    public Response searchPlace(String name) throws IOException {
+    public Call searchPlace(String name) throws IOException {
         // create url
         String url = UrlBuilder.searchPlaceUrl(name, apiKey).toString();
         // init OKHttp client
         OkHttpClient client = new OkHttpClient();
         // create request
         Request request = new Request.Builder().url(url).build();
-        // execute network request call
-        return client.newCall(request).execute();
+        // return network request call
+        return client.newCall(request);
     }
 }
