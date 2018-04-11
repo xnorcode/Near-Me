@@ -77,7 +77,7 @@ public class RealmHelperImpl implements RealmHelper {
         try {
             // begin read query
             Place place = realm.where(Place.class).equalTo("id", id).findFirst();
-            return place;
+            return realm.copyFromRealm(place);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
