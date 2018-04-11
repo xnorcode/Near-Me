@@ -46,7 +46,7 @@ public class PlacesPresenter implements PlacesContract.Presenter {
      * @param view of presenter
      */
     @Override
-    public void registerView(PlacesContract.View view) {
+    public void setView(PlacesContract.View view) {
         mView = view;
     }
 
@@ -74,9 +74,7 @@ public class PlacesPresenter implements PlacesContract.Presenter {
             Disposable disposable = mPlacesRepository.downloadAndCacheNearbyBars(lat, lng)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(status -> {
-                        if (status) loadPlaces();
-                    });
+                    .subscribe(status -> mView.onDownloadCompleted());
             mCompositeDisposable.add(disposable);
         } catch (IOException e) {
             e.printStackTrace();
@@ -88,7 +86,7 @@ public class PlacesPresenter implements PlacesContract.Presenter {
     /**
      * Search for a specific place
      *
-     * @param placeName String of place to search
+     * @param placeName query to search
      */
     @Override
     public void searchPlace(String placeName) {
@@ -96,9 +94,7 @@ public class PlacesPresenter implements PlacesContract.Presenter {
             Disposable disposable = mPlacesRepository.searchAndCachePlace(placeName)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(status -> {
-                        if (status) loadPlaces();
-                    });
+                    .subscribe(status -> mView.onDownloadCompleted());
             mCompositeDisposable.add(disposable);
         } catch (IOException e) {
             e.printStackTrace();
