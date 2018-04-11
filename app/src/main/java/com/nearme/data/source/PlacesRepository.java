@@ -47,7 +47,7 @@ public class PlacesRepository implements PlacesDataSource {
                     // get response json string
                     String json = ((Response) responseData).body().string();
                     // extract data from response and return list of places
-                    return JsonTool.extractPlaces(json, ApiSource.SEARCH);
+                    return JsonTool.extractPlaces(json, ApiSource.NEARBY);
                 })
                 .doOnNext(places -> mDbHelper.deleteAll())
                 .flatMap(mDbHelper::savePlaces);
