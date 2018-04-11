@@ -42,10 +42,6 @@ public class ListFragment extends Fragment implements PlacesContract.View {
     private ListRecyclerAdapter mRecyclerAdapter;
 
 
-    // user's current location
-    private Location mCurrentLocation;
-
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -70,16 +66,14 @@ public class ListFragment extends Fragment implements PlacesContract.View {
     @Override
     public void onDestroy() {
         super.onDestroy();
-
+        // remove presenter's ref to this view
         mPresenter.dropView();
-
+        // release recycler view memory ref
         if (mRecyclerView != null) mRecyclerView.setAdapter(null);
         mRecyclerView = null;
-
+        // release recycler adapter memory ref
         if (mRecyclerAdapter != null) mRecyclerAdapter.destroy();
         mRecyclerAdapter = null;
-
-        mCurrentLocation = null;
     }
 
 
@@ -91,20 +85,6 @@ public class ListFragment extends Fragment implements PlacesContract.View {
     @Override
     public void setPresenter(PlacesContract.Presenter presenter) {
         mPresenter = presenter;
-    }
-
-
-    /**
-     * Get user's current location from activity
-     *
-     * @param lat the latitude
-     * @param lng the longitude
-     */
-    @Override
-    public void provideUserLocation(double lat, double lng) {
-        mCurrentLocation = new Location("LocationManager");
-        mCurrentLocation.setLatitude(lat);
-        mCurrentLocation.setLongitude(lng);
     }
 
 
@@ -121,11 +101,16 @@ public class ListFragment extends Fragment implements PlacesContract.View {
      * Pass list of places and current user's location
      * in recycler adapter
      *
-     * @param places list of all places
+     * @param places ArrayList of all places
+     * @param lat    latitude of user's current location
+     * @param lng    longitude of user's current location
      */
     @Override
-    public void showPlaces(ArrayList<Place> places) {
-        mRecyclerAdapter.swapData(places, mCurrentLocation);
+    public void showPlaces(ArrayList<Place> places, double lat, double lng) {
+        Location location = new Location("LocationManager");
+        location.setLatitude(lat);
+        location.setLongitude(lng);
+        mRecyclerAdapter.swapData(places, location);
     }
 
 
