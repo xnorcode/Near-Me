@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import io.reactivex.Observable;
 import io.reactivex.annotations.NonNull;
+import okhttp3.Response;
 
 /**
  * Created by xnorcode on 09/04/2018.
@@ -41,16 +42,21 @@ public class PlacesRepository implements PlacesDataSource {
      */
     @Override
     public Observable<Boolean> downloadAndCacheNearbyBars(@NonNull double lat, @NonNull double lng) throws IOException {
-        return mApiHelper.getNearbyBars(lat, lng)
-                .map(responseData -> {
+        return Observable.just(mApiHelper.getNearbyBars(lat, lng))
+                .map(call -> {
+                    // execute network call
+                    Response response = call.execute();
                     // get response json string
-                    String json = responseData.body().string();
+                    String json = response.body().string();
                     // extract data from response and return list of places
                     return JsonTool.extractPlaces(json, ApiSource.NEARBY);
                 })
-                .doOnNext(places -> mDbHelper.deleteAll())
-                .flatMap(mDbHelper::savePlaces);
-
+                .flatMap(places -> {
+                    // clear cache
+                    mDbHelper.deleteAll();
+                    // save places to cache
+                    return Observable.just(mDbHelper.savePlaces(places));
+                });
     }
 
 
@@ -64,15 +70,21 @@ public class PlacesRepository implements PlacesDataSource {
      */
     @Override
     public Observable<Boolean> searchAndCachePlace(@NonNull String name) throws IOException {
-        return mApiHelper.searchPlace(name)
-                .map(responseData -> {
+        return Observable.just(mApiHelper.searchPlace(name))
+                .map(call -> {
+                    // execute network call
+                    Response response = call.execute();
                     // get response json string
-                    String json = responseData.body().string();
+                    String json = response.body().string();
                     // extract data from response and return list of places
                     return JsonTool.extractPlaces(json, ApiSource.SEARCH);
                 })
-                .doOnNext(places -> mDbHelper.deleteAll())
-                .flatMap(mDbHelper::savePlaces);
+                .flatMap(places -> {
+                    // clear cache
+                    mDbHelper.deleteAll();
+                    // save places to cache
+                    return Observable.just(mDbHelper.savePlaces(places));
+                });
     }
 
 
@@ -83,7 +95,7 @@ public class PlacesRepository implements PlacesDataSource {
      */
     @Override
     public Observable<ArrayList<Place>> getPlaces() {
-        return mDbHelper.getPlaces();
+        return Observable.just(mDbHelper.getPlaces());
     }
 
 
@@ -95,7 +107,7 @@ public class PlacesRepository implements PlacesDataSource {
      */
     @Override
     public Observable<Place> getPlace(String id) {
-        return mDbHelper.getPlace(id);
+        return Observable.just(mDbHelper.getPlace(id));
     }
 
 
@@ -106,7 +118,7 @@ public class PlacesRepository implements PlacesDataSource {
      */
     @Override
     public Observable<Boolean> clearCache() {
-        return mDbHelper.deleteAll();
+        return Observable.just(mDbHelper.deleteAll());
     }
 
 }
