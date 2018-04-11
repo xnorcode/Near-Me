@@ -30,7 +30,7 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<ListViewHolder> {
 
 
     // places activity presenter
-    private PlacesContract.View mView;
+    private PlacesContract.View mMvpView;
 
 
     /**
@@ -39,7 +39,7 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<ListViewHolder> {
      * @param view of places activity
      */
     public ListRecyclerAdapter(PlacesContract.View view) {
-        mView = view;
+        mMvpView = view;
     }
 
 
@@ -61,7 +61,7 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<ListViewHolder> {
     public void destroy() {
         mPlaces = null;
         mCurrentLocation = null;
-        mView = null;
+        mMvpView = null;
     }
 
 
@@ -80,26 +80,26 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<ListViewHolder> {
         Place place = mPlaces.get(position);
         // show place icon image
         Picasso.get().load(place.getIconImage()).into(holder.mIcon);
-        // create place info
-        StringBuilder sb = new StringBuilder(place.getName());
-        sb.append(" ");
-        sb.append(place.getType());
-        sb.append(" is aprox. ");
+        // show place name
+        holder.mName.setText(place.getName());
+        // generate place info
+        StringBuilder sb = new StringBuilder(place.getType());
+        sb.append(" address ");
+        sb.append(place.getAddress());
+        sb.append(" which is located aprox. ");
         // calculate distance
         Location placeLocation = PlacesHelper.getLocation(place.getLat(), place.getLng());
         String distance = PlacesHelper.calculateFriendlyFormattedDistance(mCurrentLocation, placeLocation);
         sb.append(distance);
-        sb.append(" distance from your current location.");
+        sb.append(" from you");
         // display place info
         holder.mInfo.setText(sb.toString());
-        // show place address
-        holder.mAddress.setText(place.getAddress());
         // set onClick listener for each view
-        holder.mInfo.setOnClickListener(new View.OnClickListener() {
+        holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // pass place id to details activity
-                mView.openDetailsActivity(place.getId());
+                mMvpView.openDetailsActivity(place.getId());
             }
         });
     }

@@ -21,16 +21,19 @@ public class ListViewHolder extends RecyclerView.ViewHolder {
     ImageView mIcon;
 
 
+    @BindView(R.id.place_name)
+    TextView mName;
+
+
     @BindView(R.id.place_info)
     TextView mInfo;
 
-
-    @BindView(R.id.place_address)
-    TextView mAddress;
+    View mView;
 
 
     public ListViewHolder(View view) {
         super(view);
         ButterKnife.bind(this, view);
+        mView = view;
     }
 }
