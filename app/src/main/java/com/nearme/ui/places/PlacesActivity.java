@@ -86,6 +86,8 @@ public class PlacesActivity extends AppCompatActivity implements LocationManager
             public void onTabSelected(TabLayout.Tab tab) {
                 // pass tab number
                 mViewPager.setCurrentItem(tab.getPosition());
+                // register current view to presenter for data show
+                registerCurrentView();
             }
 
             @Override
@@ -163,6 +165,8 @@ public class PlacesActivity extends AppCompatActivity implements LocationManager
         mPlacesPresenter.setLocation(location.getLatitude(), location.getLongitude());
         // start downloading nearby bars
         mPlacesPresenter.getNearbyBars(location.getLatitude(), location.getLongitude());
+        // register current view to presenter for data show
+        registerCurrentView();
     }
 
 
@@ -212,13 +216,15 @@ public class PlacesActivity extends AppCompatActivity implements LocationManager
      * Register selected view in presenter
      */
     public void registerCurrentView() {
-        // register current fragment in presenter
+        // get current fragment
         int index = mViewPager.getCurrentItem();
         PlacesContract.View currentView = (PlacesContract.View) getSupportFragmentManager().getFragments().get(index);
         // set current view in presenter
         mPlacesPresenter.setView(currentView);
-        // pass presenter ref to current view
+        // pass presenter reference to current view
         currentView.setPresenter(mPlacesPresenter);
+        // notify download completed to proceed with display
+        currentView.onDownloadCompleted();
     }
 
 }
