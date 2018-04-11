@@ -16,6 +16,13 @@ public class PlacesContract {
     interface View extends BaseView<Presenter> {
 
 
+        /**
+         * @param lat the latitude
+         * @param lng the longitude
+         */
+        void provideUserLocation(double lat, double lng);
+
+
         void onDownloadCompleted();
 
 

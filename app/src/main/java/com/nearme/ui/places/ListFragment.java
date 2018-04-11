@@ -95,6 +95,20 @@ public class ListFragment extends Fragment implements PlacesContract.View {
 
 
     /**
+     * Get user's current location from activity
+     *
+     * @param lat the latitude
+     * @param lng the longitude
+     */
+    @Override
+    public void provideUserLocation(double lat, double lng) {
+        mCurrentLocation = new Location("LocationManager");
+        mCurrentLocation.setLatitude(lat);
+        mCurrentLocation.setLongitude(lng);
+    }
+
+
+    /**
      * Load places from cache into the view.
      */
     @Override
