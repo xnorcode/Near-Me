@@ -4,7 +4,6 @@ import com.nearme.data.Place;
 
 import java.util.ArrayList;
 
-import io.reactivex.Observable;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
@@ -22,25 +21,22 @@ public class RealmHelperImpl implements RealmHelper {
      * @return save operation status
      */
     @Override
-    public Observable<Boolean> savePlaces(ArrayList<Place> places) {
-        return Observable.create(emitter -> {
-            // get realm instance
-            Realm realm = Realm.getDefaultInstance();
-            try {
-                // begin write transaction
-                realm.beginTransaction();
-                realm.insert(places);
-                realm.commitTransaction();
-                emitter.onNext(true);
-            } catch (Exception e) {
-                e.printStackTrace();
-                emitter.onNext(false);
-            } finally {
-                // close realm instance
-                realm.close();
-            }
-            emitter.onComplete();
-        });
+    public boolean savePlaces(ArrayList<Place> places) {
+        // get realm instance
+        Realm realm = Realm.getDefaultInstance();
+        try {
+            // begin write transaction
+            realm.beginTransaction();
+            realm.insert(places);
+            realm.commitTransaction();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            // close realm instance
+            realm.close();
+        }
     }
 
 
@@ -50,24 +46,21 @@ public class RealmHelperImpl implements RealmHelper {
      * @return list of all places
      */
     @Override
-    public Observable<ArrayList<Place>> getPlaces() {
-        return Observable.create(emitter -> {
-            // get realm instance
-            Realm realm = Realm.getDefaultInstance();
-            try {
-                // begin read query
-                RealmResults<Place> results = realm.where(Place.class).findAll();
-                ArrayList<Place> places = (ArrayList<Place>) realm.copyFromRealm(results);
-                emitter.onNext(places);
-            } catch (Exception e) {
-                e.printStackTrace();
-                emitter.onNext(null);
-            } finally {
-                // close realm instance
-                realm.close();
-            }
-            emitter.onComplete();
-        });
+    public ArrayList<Place> getPlaces() {
+        // get realm instance
+        Realm realm = Realm.getDefaultInstance();
+        try {
+            // begin read query
+            RealmResults<Place> results = realm.where(Place.class).findAll();
+            ArrayList<Place> places = (ArrayList<Place>) realm.copyFromRealm(results);
+            return places;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            // close realm instance
+            realm.close();
+        }
     }
 
 
@@ -78,23 +71,20 @@ public class RealmHelperImpl implements RealmHelper {
      * @return the place by it's ID
      */
     @Override
-    public Observable<Place> getPlace(String id) {
-        return Observable.create(emitter -> {
-            // get realm instance
-            Realm realm = Realm.getDefaultInstance();
-            try {
-                // begin read query
-                Place place = realm.where(Place.class).equalTo("id", id).findFirst();
-                emitter.onNext(place);
-            } catch (Exception e) {
-                e.printStackTrace();
-                emitter.onNext(null);
-            } finally {
-                // close realm instance
-                realm.close();
-            }
-            emitter.onComplete();
-        });
+    public Place getPlace(String id) {
+        // get realm instance
+        Realm realm = Realm.getDefaultInstance();
+        try {
+            // begin read query
+            Place place = realm.where(Place.class).equalTo("id", id).findFirst();
+            return place;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            // close realm instance
+            realm.close();
+        }
     }
 
 
@@ -104,24 +94,21 @@ public class RealmHelperImpl implements RealmHelper {
      * @return delete operation status
      */
     @Override
-    public Observable<Boolean> deleteAll() {
-        return Observable.create(emitter -> {
-            // get realm instance
-            Realm realm = Realm.getDefaultInstance();
-            try {
-                // begin delete transaction
-                realm.beginTransaction();
-                realm.deleteAll();
-                realm.commitTransaction();
-                emitter.onNext(true);
-            } catch (Exception e) {
-                e.printStackTrace();
-                emitter.onNext(false);
-            } finally {
-                // close realm instance
-                realm.close();
-            }
-            emitter.onComplete();
-        });
+    public boolean deleteAll() {
+        // get realm instance
+        Realm realm = Realm.getDefaultInstance();
+        try {
+            // begin delete transaction
+            realm.beginTransaction();
+            realm.deleteAll();
+            realm.commitTransaction();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            // close realm instance
+            realm.close();
+        }
     }
 }
