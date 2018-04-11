@@ -11,7 +11,6 @@ import java.util.ArrayList;
 
 import io.reactivex.Observable;
 import io.reactivex.annotations.NonNull;
-import okhttp3.Response;
 
 /**
  * Created by xnorcode on 09/04/2018.
@@ -45,7 +44,7 @@ public class PlacesRepository implements PlacesDataSource {
         return mApiHelper.getNearbyBars(lat, lng)
                 .map(responseData -> {
                     // get response json string
-                    String json = ((Response) responseData).body().string();
+                    String json = responseData.body().string();
                     // extract data from response and return list of places
                     return JsonTool.extractPlaces(json, ApiSource.NEARBY);
                 })
@@ -68,7 +67,7 @@ public class PlacesRepository implements PlacesDataSource {
         return mApiHelper.searchPlace(name)
                 .map(responseData -> {
                     // get response json string
-                    String json = ((Response) responseData).body().string();
+                    String json = responseData.body().string();
                     // extract data from response and return list of places
                     return JsonTool.extractPlaces(json, ApiSource.SEARCH);
                 })
