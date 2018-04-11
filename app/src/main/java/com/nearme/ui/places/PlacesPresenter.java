@@ -74,7 +74,9 @@ public class PlacesPresenter implements PlacesContract.Presenter {
             Disposable disposable = mPlacesRepository.downloadAndCacheNearbyBars(lat, lng)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(status -> mView.onDownloadCompleted());
+                    .subscribe(status -> {
+                        if (mView != null) mView.onDownloadCompleted();
+                    });
             mCompositeDisposable.add(disposable);
         } catch (IOException e) {
             e.printStackTrace();
@@ -94,7 +96,9 @@ public class PlacesPresenter implements PlacesContract.Presenter {
             Disposable disposable = mPlacesRepository.searchAndCachePlace(placeName)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(status -> mView.onDownloadCompleted());
+                    .subscribe(status -> {
+                        if (mView != null) mView.onDownloadCompleted();
+                    });
             mCompositeDisposable.add(disposable);
         } catch (IOException e) {
             e.printStackTrace();
@@ -111,7 +115,9 @@ public class PlacesPresenter implements PlacesContract.Presenter {
         Disposable disposable = mPlacesRepository.getPlaces()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(places -> mView.showPlaces(places));
+                .subscribe(places -> {
+                    if (mView != null) mView.showPlaces(places);
+                });
         mCompositeDisposable.add(disposable);
     }
 }
