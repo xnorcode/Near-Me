@@ -10,9 +10,9 @@ public interface BasePresenter<V> {
     /**
      * Bind view with presenter
      *
-     * @param view the view of this presenter
+     * @param view of this presenter
      */
-    void registerView(V view);
+    void setView(V view);
 
 
     /**
