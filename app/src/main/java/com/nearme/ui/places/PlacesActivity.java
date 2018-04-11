@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
@@ -83,8 +82,6 @@ public class PlacesActivity extends AppCompatActivity implements LocationManager
             public void onTabSelected(TabLayout.Tab tab) {
                 // pass tab number
                 mViewPager.setCurrentItem(tab.getPosition());
-                // register view to presenter
-                registerCurrentView();
             }
 
             @Override
@@ -111,8 +108,8 @@ public class PlacesActivity extends AppCompatActivity implements LocationManager
             }
         });
 
-        // register view to presenter
-        registerCurrentView();
+        // init location manager
+        mLocationManager = new LocationManagerImpl();
     }
 
 
@@ -129,8 +126,7 @@ public class PlacesActivity extends AppCompatActivity implements LocationManager
                 return;
             }
         }
-        // init and connect location manager
-        mLocationManager = new LocationManagerImpl();
+        // connect location manager
         mLocationManager.connect(this, this);
     }
 
@@ -176,8 +172,7 @@ public class PlacesActivity extends AppCompatActivity implements LocationManager
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            // init and connect location manager
-            mLocationManager = new LocationManagerImpl();
+            // connect location manager
             mLocationManager.connect(this, this);
         } else if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_DENIED) {
             // request permission
@@ -201,20 +196,14 @@ public class PlacesActivity extends AppCompatActivity implements LocationManager
     /**
      * Register selected view in presenter
      */
-    private void registerCurrentView() {
+    public void registerCurrentView() {
         // register current fragment in presenter
         int index = mViewPager.getCurrentItem();
-        // TODO: 10/04/2018 Bug Fix: Get current fragment and pass to presenter
-        Fragment fragment = getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.view_pager + ":" + index);
-        if (fragment == null) return;
-        switch (index) {
-            case 0:
-                mPlacesPresenter.registerView((ListFragment) fragment);
-                break;
-            case 1:
-                mPlacesPresenter.registerView((MapFragment) fragment);
-                break;
-        }
+        PlacesContract.View currentView = (PlacesContract.View) getSupportFragmentManager().getFragments().get(index);
+        // set current view in presenter
+        mPlacesPresenter.setView(currentView);
+        // pass presenter ref to current view
+        currentView.setPresenter(mPlacesPresenter);
     }
 
 }
