@@ -31,6 +31,6 @@ public class ListViewHolder extends RecyclerView.ViewHolder {
 
     public ListViewHolder(View view) {
         super(view);
-        ButterKnife.bind(view);
+        ButterKnife.bind(this, view);
     }
 }
