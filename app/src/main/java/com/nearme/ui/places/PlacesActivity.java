@@ -154,11 +154,14 @@ public class PlacesActivity extends AppCompatActivity implements LocationManager
 
     /**
      * Get current user's location when location manager
-     * is connect and init getNearbyBars request
+     * is connected
      */
     @Override
     public void onLocationManagerConnected() {
         Location location = mLocationManager.getLocation();
+        // save current location in presenter
+        mPlacesPresenter.setLocation(location.getLatitude(), location.getLongitude());
+        // start downloading nearby bars
         mPlacesPresenter.getNearbyBars(location.getLatitude(), location.getLongitude());
     }
 
