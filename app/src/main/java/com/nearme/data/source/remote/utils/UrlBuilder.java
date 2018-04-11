@@ -31,7 +31,7 @@ public class UrlBuilder {
                 .host("maps.googleapis.com")
                 .addPathSegments("maps/api/place/nearbysearch/json")
                 .addEncodedQueryParameter("location", sb.toString())
-                .addQueryParameter("radius", "1000")
+                .addQueryParameter("radius", "10000")
                 .addQueryParameter("types", "bar")
                 .addQueryParameter("key", apiKey)
                 .build()
