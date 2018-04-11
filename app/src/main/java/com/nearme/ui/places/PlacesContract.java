@@ -16,6 +16,9 @@ public class PlacesContract {
     interface View extends BaseView<Presenter> {
 
 
+        void onDownloadCompleted();
+
+
         /**
          * @param places ArrayList of all places
          */
