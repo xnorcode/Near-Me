@@ -1,0 +1,48 @@
+{
+  "html_attributions" : [],
+  "next_page_token" : "CqQCHAEAAGM1LgYUy6q6t7vT85zSqh9POwlnG1ShxQSTDjfaTUCKCz9G2BEQkoyviPgUtGv3GEMOtq70lLzCSq4ShfvkG82_8mR3itm5kKhPWlBiF0bQMv-k6ZPqw_-w6MtKHL0uawI_ivskT4ZQbULZpjqUr6pbkuWbvj_EVQ4EomGRuqBDgo2T1HYLfrTAiepQgWPgxMNXVgqV75T-oZwuYOSHeWUjkupI8is_WYoHZQ8w9wPEH-jEWq6dJuPSG--Cc4fyJp1eQ-3yw2R73bR_xvE0s6U_jgCL3Z1vxXRlhSLQkrl1MNVvaNOrOrM5lmHfCDSDq_a-Yf3uT0GMwbsXHYot_NQfCRRxmU6nAhP1r8ZcFaiCPYrolP-3F-qwyPREQX_8qBIQsmk9gWS7lM9jr6GwUZy4-xoUY2i190dznbTD1zVPtS1OYKafutc",
+  "results" : [
+    {
+      "geometry" : {
+        "location" : {
+          "lat" : 51.4863488,
+          "lng" : 0.01740359999999999
+        },
+        "viewport" : {
+          "northeast" : {
+            "lat" : 51.4877437302915,
+            "lng" : 0.01873528029150203
+          },
+          "southwest" : {
+            "lat" : 51.4850457697085,
+            "lng" : 0.01603731970849797
+          }
+        }
+      },
+      "icon" : "https://maps.gstatic.com/mapfiles/place_api/icons/lodging-71.png",
+      "id" : "b03108bcba9bdbdb69aba86d2f4d0d0a28fdd3a1",
+      "name" : "Angerstein Hotel",
+      "opening_hours" : {
+        "open_now" : true,
+        "weekday_text" : []
+      },
+      "photos" : [
+        {
+          "height" : 519,
+          "html_attributions" : [
+            "\u003ca href=\"https://maps.google.com/maps/contrib/113980593549129977476/photos\"\u003eAngerstein Hotel\u003c/a\u003e"
+          ],
+          "photo_reference" : "CmRaAAAAx9SetmmGn9GKyWaAHEl2UPs2J_1j4aFWRxigTwtQTJVR4yeBe83HOriE-KqOCC_X_2R1pkBqCA-sJiJxK4SUfsJ7j1jjB0PFWwMyngp-6hBqVXkvBAEav5M_Hn5ruPPREhBy1CVQr3eViIXsDcdQmB64GhS9bL5dCVy-Do9WATre3MfwXp8pFQ",
+          "width" : 520
+        }
+      ],
+      "place_id" : "ChIJ5QKI1Duo2EcR12zVZnRnxpI",
+      "rating" : 3.6,
+      "reference" : "CmRSAAAAM0zxXCyKBubwDMTZ0jzH1dy16vw0qVH7CscXAnGfGG7cTmW77LUPVfsNn69U7TDCHeo_LGk6-yBbzwS-ZgTFdcvJjxpz6FOcq2e53df7mllu3r_mzo0Jba66ZMe3oZKSEhCjBMxMsDNPC8xMpy-C_oQxGhQpv9xp2rcCLMo9YTY0TopWPLTVsw",
+      "scope" : "GOOGLE",
+      "types" : [ "bar", "lodging", "point_of_interest", "establishment" ],
+      "vicinity" : "108 Woolwich Road, London"
+    }
+  ],
+  "status" : "OK"
+}
