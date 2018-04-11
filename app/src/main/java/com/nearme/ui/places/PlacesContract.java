@@ -16,20 +16,15 @@ public class PlacesContract {
     interface View extends BaseView<Presenter> {
 
 
-        /**
-         * @param lat the latitude
-         * @param lng the longitude
-         */
-        void provideUserLocation(double lat, double lng);
-
-
         void onDownloadCompleted();
 
 
         /**
          * @param places ArrayList of all places
+         * @param lat    latitude of user's current location
+         * @param lng    longitude of user's current location
          */
-        void showPlaces(ArrayList<Place> places);
+        void showPlaces(ArrayList<Place> places, double lat, double lng);
 
 
         /**
@@ -60,6 +55,13 @@ public class PlacesContract {
          * @param placeName String of place to search
          */
         void searchPlace(String placeName);
+
+
+        /**
+         * @param lat the latitude
+         * @param lng the longitude
+         */
+        void setLocation(double lat, double lng);
 
 
         void loadPlaces();
