@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -84,10 +85,30 @@ public class ListFragment extends Fragment implements PlacesContract.View {
 
 
     /**
+     * Get presenter reference
+     *
+     * @param presenter of current view
+     */
+    @Override
+    public void setPresenter(PlacesContract.Presenter presenter) {
+        mPresenter = presenter;
+    }
+
+
+    /**
+     * Load places from cache into the view.
+     */
+    @Override
+    public void onDownloadCompleted() {
+        mPresenter.loadPlaces();
+    }
+
+
+    /**
      * Pass list of places and current user's location
      * in recycler adapter
      *
-     * @param places ArrayList of all places
+     * @param places list of all places
      */
     @Override
     public void showPlaces(ArrayList<Place> places) {
