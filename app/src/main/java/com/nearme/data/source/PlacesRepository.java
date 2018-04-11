@@ -20,11 +20,20 @@ import okhttp3.Response;
 public class PlacesRepository implements PlacesDataSource {
 
 
+    // Realm database helper
     private final RealmHelperImpl mDbHelper;
 
+
+    // Google Places API helper
     private final GooglePlacesApiHelperImpl mApiHelper;
 
 
+    /**
+     * Constructor
+     *
+     * @param mDbHelper  Realm database helper
+     * @param mApiHelper Google Places API helper
+     */
     public PlacesRepository(RealmHelperImpl mDbHelper, GooglePlacesApiHelperImpl mApiHelper) {
         this.mDbHelper = mDbHelper;
         this.mApiHelper = mApiHelper;
@@ -95,7 +104,10 @@ public class PlacesRepository implements PlacesDataSource {
      */
     @Override
     public Observable<ArrayList<Place>> getPlaces() {
-        return Observable.just(mDbHelper.getPlaces());
+        return Observable.create(emitter -> {
+            emitter.onNext(mDbHelper.getPlaces());
+            emitter.onComplete();
+        });
     }
 
 
@@ -107,7 +119,10 @@ public class PlacesRepository implements PlacesDataSource {
      */
     @Override
     public Observable<Place> getPlace(String id) {
-        return Observable.just(mDbHelper.getPlace(id));
+        return Observable.create(emitter -> {
+            emitter.onNext(mDbHelper.getPlace(id));
+            emitter.onComplete();
+        });
     }
 
 
@@ -118,7 +133,10 @@ public class PlacesRepository implements PlacesDataSource {
      */
     @Override
     public Observable<Boolean> clearCache() {
-        return Observable.just(mDbHelper.deleteAll());
+        return Observable.create(emitter -> {
+            emitter.onNext(mDbHelper.deleteAll());
+            emitter.onComplete();
+        });
     }
 
 }
