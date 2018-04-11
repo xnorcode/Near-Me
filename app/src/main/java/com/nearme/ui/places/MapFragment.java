@@ -72,6 +72,26 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
 
 
     /**
+     * Get presenter reference
+     *
+     * @param presenter of current view
+     */
+    @Override
+    public void setPresenter(PlacesContract.Presenter presenter) {
+        mPresenter = presenter;
+    }
+
+
+    /**
+     * Load places from cache into the view.
+     */
+    @Override
+    public void onDownloadCompleted() {
+        mPresenter.loadPlaces();
+    }
+
+
+    /**
      * Draw places pins on map
      *
      * @param places ArrayList of all places
