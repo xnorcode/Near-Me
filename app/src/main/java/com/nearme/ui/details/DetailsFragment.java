@@ -70,13 +70,19 @@ public class DetailsFragment extends Fragment implements DetailsContract.View {
     public void onStart() {
         super.onStart();
         // register view of presenter
-        mDetailsPresenter.registerView(this);
+        mDetailsPresenter.setView(this);
         // get place id from arguments
         Bundle args = getArguments();
         if (args != null && args.containsKey(Place.Constants.ID)) {
             // get place from local cache
             mDetailsPresenter.getPlace(args.getString(Place.Constants.ID));
         }
+    }
+
+
+    @Override
+    public void setPresenter(DetailsContract.Presenter presenter) {
+
     }
 
 

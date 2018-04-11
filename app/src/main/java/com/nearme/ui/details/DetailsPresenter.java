@@ -44,7 +44,7 @@ public class DetailsPresenter implements DetailsContract.Presenter {
      * @param view of presenter
      */
     @Override
-    public void registerView(DetailsContract.View view) {
+    public void setView(DetailsContract.View view) {
         mView = view;
     }
 
