@@ -2,6 +2,7 @@ package com.nearme.ui.places;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -14,7 +15,10 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.google.android.gms.common.api.Status;
 import com.nearme.R;
@@ -96,12 +100,20 @@ public class PlacesActivity extends AppCompatActivity implements LocationManager
         });
 
         // setup search box listener
-        mSearchBox.setOnKeyListener(new View.OnKeyListener() {
+        mSearchBox.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (((event != null) && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || actionId == EditorInfo.IME_ACTION_DONE) {
                     // search for inserted place
                     mPlacesPresenter.searchPlace(mSearchBox.getText().toString());
+                    // hide keyboard
+                    View view = getCurrentFocus();
+                    if (view != null) {
+                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                    }
+                    // remove focus from search box
+                    mSearchBox.clearFocus();
                     return true;
                 }
                 return false;

@@ -2,4 +2,6 @@
 
     <string name="app_name">NearMe</string>
 
+    <string name="search_box_hint">Search place ...</string>
+
 </resources>
