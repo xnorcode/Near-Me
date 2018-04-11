@@ -67,7 +67,8 @@ public class ListFragment extends Fragment implements PlacesContract.View {
     public void onDestroy() {
         super.onDestroy();
         // remove presenter's ref to this view
-        mPresenter.dropView();
+        if (mPresenter != null) mPresenter.dropView();
+        mPresenter = null;
         // release recycler view memory ref
         if (mRecyclerView != null) mRecyclerView.setAdapter(null);
         mRecyclerView = null;

@@ -53,7 +53,9 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
     public void onDestroy() {
         super.onDestroy();
         // remove presenter's ref to this view
-        mPresenter.dropView();
+        if (mPresenter != null) mPresenter.dropView();
+        mPresenter = null;
+
     }
 
 
