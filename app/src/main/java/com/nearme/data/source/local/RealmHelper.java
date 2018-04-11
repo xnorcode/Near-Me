@@ -4,8 +4,6 @@ import com.nearme.data.Place;
 
 import java.util.ArrayList;
 
-import io.reactivex.annotations.NonNull;
-
 /**
  * Created by xnorcode on 07/04/2018.
  */
@@ -17,7 +15,7 @@ public interface RealmHelper {
      * @param places a list of places
      * @return save operation status
      */
-    boolean savePlaces(@NonNull ArrayList<Place> places);
+    boolean savePlaces(ArrayList<Place> places);
 
 
     /**
@@ -30,7 +28,7 @@ public interface RealmHelper {
      * @param id the place ID
      * @return the place by it's ID
      */
-    Place getPlace(@NonNull String id);
+    Place getPlace(String id);
 
 
     /**

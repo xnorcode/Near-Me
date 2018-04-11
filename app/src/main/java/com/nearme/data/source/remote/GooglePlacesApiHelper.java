@@ -2,8 +2,6 @@ package com.nearme.data.source.remote;
 
 import java.io.IOException;
 
-import io.reactivex.Observable;
-import io.reactivex.annotations.NonNull;
 import okhttp3.Response;
 
 /**
@@ -19,7 +17,7 @@ public interface GooglePlacesApiHelper {
      * @return OkHttp network call response
      * @throws IOException for network call
      */
-    Observable<Response> getNearbyBars(@NonNull double lat, @NonNull double lng) throws IOException;
+    Response getNearbyBars(double lat, double lng) throws IOException;
 
 
     /**
@@ -27,6 +25,6 @@ public interface GooglePlacesApiHelper {
      * @return OkHttp network call response
      * @throws IOException for network call
      */
-    Observable<Response> searchPlace(@NonNull String name) throws IOException;
+    Response searchPlace(String name) throws IOException;
 
 }

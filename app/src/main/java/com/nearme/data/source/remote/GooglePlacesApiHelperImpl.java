@@ -4,7 +4,6 @@ import com.nearme.data.source.remote.utils.UrlBuilder;
 
 import java.io.IOException;
 
-import io.reactivex.Observable;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -39,18 +38,15 @@ public class GooglePlacesApiHelperImpl implements GooglePlacesApiHelper {
      * @throws IOException for network call
      */
     @Override
-    public Observable<Response> getNearbyBars(double lat, double lng) throws IOException {
-        return Observable.create(emitter -> {
-            // create url
-            String url = UrlBuilder.nearbyBarsUrl(lat, lng, apiKey).toString();
-            // init OKHttp client
-            OkHttpClient client = new OkHttpClient();
-            // create request
-            Request request = new Request.Builder().url(url).build();
-            // execute network request call
-            emitter.onNext(client.newCall(request).execute());
-            emitter.onComplete();
-        });
+    public Response getNearbyBars(double lat, double lng) throws IOException {
+        // create url
+        String url = UrlBuilder.nearbyBarsUrl(lat, lng, apiKey).toString();
+        // init OKHttp client
+        OkHttpClient client = new OkHttpClient();
+        // create request
+        Request request = new Request.Builder().url(url).build();
+        // execute network request call
+        return client.newCall(request).execute();
     }
 
 
@@ -62,17 +58,14 @@ public class GooglePlacesApiHelperImpl implements GooglePlacesApiHelper {
      * @throws IOException for network call
      */
     @Override
-    public Observable<Response> searchPlace(String name) throws IOException {
-        return Observable.create(emitter -> {
-            // create url
-            String url = UrlBuilder.searchPlaceUrl(name, apiKey).toString();
-            // init OKHttp client
-            OkHttpClient client = new OkHttpClient();
-            // create request
-            Request request = new Request.Builder().url(url).build();
-            // execute network request call
-            emitter.onNext(client.newCall(request).execute());
-            emitter.onComplete();
-        });
+    public Response searchPlace(String name) throws IOException {
+        // create url
+        String url = UrlBuilder.searchPlaceUrl(name, apiKey).toString();
+        // init OKHttp client
+        OkHttpClient client = new OkHttpClient();
+        // create request
+        Request request = new Request.Builder().url(url).build();
+        // execute network request call
+        return client.newCall(request).execute();
     }
 }
