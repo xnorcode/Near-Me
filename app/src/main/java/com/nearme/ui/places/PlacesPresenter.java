@@ -27,6 +27,10 @@ public class PlacesPresenter implements PlacesContract.Presenter {
     // RxJava disposable manager for all Rx operations
     private CompositeDisposable mCompositeDisposable;
 
+    // current location
+    private double lat;
+    private double lng;
+
 
     /**
      * Constructor
@@ -108,6 +112,19 @@ public class PlacesPresenter implements PlacesContract.Presenter {
 
 
     /**
+     * Set current user's location
+     *
+     * @param lat the latitude
+     * @param lng the longitude
+     */
+    @Override
+    public void setLocation(double lat, double lng) {
+        this.lat = lat;
+        this.lng = lng;
+    }
+
+
+    /**
      * Load all places from cache
      */
     @Override
@@ -116,7 +133,7 @@ public class PlacesPresenter implements PlacesContract.Presenter {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(places -> {
-                    if (mView != null) mView.showPlaces(places);
+                    if (mView != null) mView.showPlaces(places, lat, lng);
                 });
         mCompositeDisposable.add(disposable);
     }
