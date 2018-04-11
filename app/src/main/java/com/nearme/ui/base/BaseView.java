@@ -5,5 +5,10 @@ package com.nearme.ui.base;
  */
 
 public interface BaseView<V> {
-    
+
+    /**
+     * @param presenter of current view
+     */
+    void setPresenter(V presenter);
+
 }
