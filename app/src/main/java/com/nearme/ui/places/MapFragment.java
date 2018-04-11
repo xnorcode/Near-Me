@@ -28,10 +28,6 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
     private PlacesContract.Presenter mPresenter;
 
 
-    // user's current location
-    private Location mCurrentLocation;
-
-
     // Google map
     private GoogleMap mGoogleMap;
 
@@ -47,7 +43,6 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
     @Override
     public void onStop() {
         super.onStop();
-
         // clear and remove google map ref
         if (mGoogleMap != null) mGoogleMap.clear();
         mGoogleMap = null;
@@ -57,10 +52,8 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
     @Override
     public void onDestroy() {
         super.onDestroy();
-
+        // remove presenter's ref to this view
         mPresenter.dropView();
-
-        mCurrentLocation = null;
     }
 
 
@@ -83,20 +76,6 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
 
 
     /**
-     * Get user's current location from activity
-     *
-     * @param lat the latitude
-     * @param lng the longitude
-     */
-    @Override
-    public void provideUserLocation(double lat, double lng) {
-        mCurrentLocation = new Location("LocationManager");
-        mCurrentLocation.setLatitude(lat);
-        mCurrentLocation.setLongitude(lng);
-    }
-
-
-    /**
      * Load places from cache into the view.
      */
     @Override
@@ -109,10 +88,15 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
      * Draw places pins on map
      *
      * @param places ArrayList of all places
+     * @param lat    latitude of user's current location
+     * @param lng    longitude of user's current location
      */
     @Override
-    public void showPlaces(ArrayList<Place> places) {
-        drawMap(places, mCurrentLocation);
+    public void showPlaces(ArrayList<Place> places, double lat, double lng) {
+        Location location = new Location("LocationManager");
+        location.setLatitude(lat);
+        location.setLongitude(lng);
+        drawMap(places, location);
     }
 
 
