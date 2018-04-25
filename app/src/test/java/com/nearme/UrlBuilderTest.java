@@ -1,4 +1,8 @@
-package com.nearme.data.source.remote.utils;
+package com.nearme;
+
+import com.nearme.data.source.remote.utils.UrlBuilder;
+
+import junit.framework.Assert;
 
 import org.junit.Test;
 
@@ -16,7 +20,7 @@ public class UrlBuilderTest {
     @Test
     public void nearbyBarsUrl() throws Exception {
         URL url = HttpUrl.parse("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=0.0,0.0&radius=1000&types=bar&key=1234").url();
-        assertEquals(UrlBuilder.nearbyBarsUrl(0.0, 0.0, "1234").toString(), url.toString());
+        Assert.assertEquals(UrlBuilder.nearbyBarsUrl(0.0, 0.0, "1234").toString(), url.toString());
     }
 
     @Test
