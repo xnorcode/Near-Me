@@ -22,15 +22,13 @@ import android.widget.TextView;
 
 import com.google.android.gms.common.api.Status;
 import com.nearme.R;
-import com.nearme.data.source.PlacesRepository;
-import com.nearme.data.source.local.RealmHelperImpl;
-import com.nearme.data.source.remote.GooglePlacesApiHelperImpl;
 import com.nearme.location.LocationManager;
 import com.nearme.location.LocationManagerImpl;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.reactivex.disposables.CompositeDisposable;
 
 public class PlacesActivity extends AppCompatActivity implements LocationManager.Callback {
 
@@ -48,11 +46,13 @@ public class PlacesActivity extends AppCompatActivity implements LocationManager
 
 
     // PlacesActivity presenter
-    private PlacesPresenter mPlacesPresenter;
+    @Inject
+    PlacesPresenter mPlacesPresenter;
 
 
     // location manager
-    private LocationManagerImpl mLocationManager;
+    @Inject
+    LocationManagerImpl mLocationManager;
 
 
     @Override
@@ -74,11 +74,6 @@ public class PlacesActivity extends AppCompatActivity implements LocationManager
         // setup ViewPager
         mViewPager.setAdapter(new PlacesPageAdapter(getSupportFragmentManager(), mTabLayout.getTabCount()));
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
-
-        // init places presenter
-        mPlacesPresenter = new PlacesPresenter(new PlacesRepository(new RealmHelperImpl(),
-                new GooglePlacesApiHelperImpl(getString(R.string.google_api_key))),
-                new CompositeDisposable());
 
         // add tab selection listener
         mTabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -121,9 +116,6 @@ public class PlacesActivity extends AppCompatActivity implements LocationManager
                 return false;
             }
         });
-
-        // init location manager
-        mLocationManager = new LocationManagerImpl();
     }
 
 
@@ -141,7 +133,7 @@ public class PlacesActivity extends AppCompatActivity implements LocationManager
             }
         }
         // connect location manager
-        mLocationManager.connect(this, this);
+        mLocationManager.connect(this);
     }
 
 
@@ -192,7 +184,7 @@ public class PlacesActivity extends AppCompatActivity implements LocationManager
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             // connect location manager
-            mLocationManager.connect(this, this);
+            mLocationManager.connect(this);
         } else if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_DENIED) {
             // request permission
             createLocationPermissionsRequest();

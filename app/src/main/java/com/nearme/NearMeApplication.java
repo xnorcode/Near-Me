@@ -1,7 +1,9 @@
 package com.nearme;
 
-import android.app.Application;
+import com.nearme.di.DaggerAppComponent;
 
+import dagger.android.AndroidInjector;
+import dagger.android.DaggerApplication;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
@@ -9,7 +11,7 @@ import io.realm.RealmConfiguration;
  * Created by xnorcode on 07/04/2018.
  */
 
-public class NearMeApplication extends Application {
+public class NearMeApplication extends DaggerApplication {
 
     @Override
     public void onCreate() {
@@ -23,5 +25,10 @@ public class NearMeApplication extends Application {
                 .build();
         // set default configs
         Realm.setDefaultConfiguration(config);
+    }
+
+    @Override
+    protected AndroidInjector<? extends DaggerApplication> applicationInjector() {
+        return DaggerAppComponent.builder().application(this).build();
     }
 }

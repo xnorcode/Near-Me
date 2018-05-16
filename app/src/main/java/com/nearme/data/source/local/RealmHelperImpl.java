@@ -4,13 +4,15 @@ import com.nearme.data.Place;
 
 import java.util.ArrayList;
 
+import javax.inject.Singleton;
+
 import io.realm.Realm;
 import io.realm.RealmResults;
 
 /**
  * Created by xnorcode on 08/04/2018.
  */
-
+@Singleton
 public class RealmHelperImpl implements RealmHelper {
 
 

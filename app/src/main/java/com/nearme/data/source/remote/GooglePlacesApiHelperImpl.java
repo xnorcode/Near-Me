@@ -4,6 +4,8 @@ import com.nearme.data.source.remote.utils.UrlBuilder;
 
 import java.io.IOException;
 
+import javax.inject.Singleton;
+
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -11,22 +13,13 @@ import okhttp3.Request;
 /**
  * Created by xnorcode on 06/04/2018.
  */
-
+@Singleton
 public class GooglePlacesApiHelperImpl implements GooglePlacesApiHelper {
 
 
     // Google Places API key
-    private String apiKey;
-
-
-    /**
-     * Constructor
-     *
-     * @param apiKey for Google Places API
-     */
-    public GooglePlacesApiHelperImpl(String apiKey) {
-        this.apiKey = apiKey;
-    }
+    @PlacesApiKey
+    String apiKey;
 
 
     /**

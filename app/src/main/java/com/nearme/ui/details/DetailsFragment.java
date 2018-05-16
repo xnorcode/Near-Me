@@ -13,14 +13,12 @@ import android.widget.Toast;
 
 import com.nearme.R;
 import com.nearme.data.Place;
-import com.nearme.data.source.PlacesRepository;
-import com.nearme.data.source.local.RealmHelperImpl;
-import com.nearme.data.source.remote.GooglePlacesApiHelperImpl;
 import com.squareup.picasso.Picasso;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.reactivex.disposables.CompositeDisposable;
 
 /**
  * Created by xnorcode on 10/04/2018.
@@ -42,17 +40,8 @@ public class DetailsFragment extends Fragment implements DetailsContract.View {
 
 
     // Details Activity Presenter
-    private DetailsPresenter mDetailsPresenter;
-
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // init details presenter
-        mDetailsPresenter = new DetailsPresenter(new PlacesRepository(new RealmHelperImpl(),
-                new GooglePlacesApiHelperImpl(getString(R.string.google_api_key))),
-                new CompositeDisposable());
-    }
+    @Inject
+    DetailsContract.Presenter mDetailsPresenter;
 
 
     @Nullable

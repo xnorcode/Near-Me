@@ -20,6 +20,8 @@ import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStates;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
 
+import javax.inject.Inject;
+
 /**
  * Created by xnorcode on 06/04/2018.
  */
@@ -45,20 +47,22 @@ public class LocationManagerImpl implements LocationManager, GoogleApiClient.Con
     // Location Manager connection status
     private boolean ready;
 
+    @Inject
+    Context mContext;
+
 
     /**
      * Connect to Location API
      *
-     * @param context  of activity
      * @param callback to activity
      */
     @Override
-    public void connect(Context context, Callback callback) {
+    public void connect(Callback callback) {
         // register callback
         this.mCallback = callback;
         // connect Google Location API
         if (mGoogleApiClient == null) {
-            mGoogleApiClient = new GoogleApiClient.Builder(context)
+            mGoogleApiClient = new GoogleApiClient.Builder(mContext)
                     .addApi(LocationServices.API)
                     .addConnectionCallbacks(this)
                     .addOnConnectionFailedListener(this)
@@ -97,6 +101,7 @@ public class LocationManagerImpl implements LocationManager, GoogleApiClient.Con
         mResult = null;
         mCallback = null;
         mCurrentLocation = null;
+        mContext = null;
     }
 
 

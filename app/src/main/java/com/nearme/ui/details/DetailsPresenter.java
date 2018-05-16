@@ -2,6 +2,8 @@ package com.nearme.ui.details;
 
 import com.nearme.data.source.PlacesRepository;
 
+import javax.inject.Inject;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -29,12 +31,12 @@ public class DetailsPresenter implements DetailsContract.Presenter {
     /**
      * Constructor
      *
-     * @param mPlacesRepository    for local and remote transactions
-     * @param mCompositeDisposable for managing all Rx operations
+     * @param mPlacesRepository for local and remote transactions
      */
-    public DetailsPresenter(PlacesRepository mPlacesRepository, CompositeDisposable mCompositeDisposable) {
+    @Inject
+    public DetailsPresenter(PlacesRepository mPlacesRepository) {
         this.mPlacesRepository = mPlacesRepository;
-        this.mCompositeDisposable = mCompositeDisposable;
+        this.mCompositeDisposable = new CompositeDisposable();
     }
 
 
@@ -56,6 +58,7 @@ public class DetailsPresenter implements DetailsContract.Presenter {
     public void dropView() {
         mView = null;
         mCompositeDisposable.clear();
+        mCompositeDisposable = null;
         mPlacesRepository = null;
     }
 

@@ -4,6 +4,8 @@ import com.nearme.data.source.PlacesRepository;
 
 import java.io.IOException;
 
+import javax.inject.Inject;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -35,12 +37,12 @@ public class PlacesPresenter implements PlacesContract.Presenter {
     /**
      * Constructor
      *
-     * @param mPlacesRepository    for local and remote transactions
-     * @param mCompositeDisposable for managing all Rx operations
+     * @param mPlacesRepository for local and remote transactions
      */
-    public PlacesPresenter(PlacesRepository mPlacesRepository, CompositeDisposable mCompositeDisposable) {
+    @Inject
+    public PlacesPresenter(PlacesRepository mPlacesRepository) {
         this.mPlacesRepository = mPlacesRepository;
-        this.mCompositeDisposable = mCompositeDisposable;
+        this.mCompositeDisposable = new CompositeDisposable();
     }
 
 
@@ -62,6 +64,7 @@ public class PlacesPresenter implements PlacesContract.Presenter {
     public void dropView() {
         mView = null;
         mCompositeDisposable.clear();
+        mCompositeDisposable = null;
         mPlacesRepository = null;
     }
 

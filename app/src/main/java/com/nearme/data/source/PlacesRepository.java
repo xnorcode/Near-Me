@@ -9,6 +9,9 @@ import com.nearme.data.source.remote.utils.JsonTool;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import io.reactivex.Observable;
 import io.reactivex.annotations.NonNull;
 import okhttp3.Response;
@@ -16,7 +19,7 @@ import okhttp3.Response;
 /**
  * Created by xnorcode on 09/04/2018.
  */
-
+@Singleton
 public class PlacesRepository implements PlacesDataSource {
 
 
@@ -34,7 +37,8 @@ public class PlacesRepository implements PlacesDataSource {
      * @param mDbHelper  Realm database helper
      * @param mApiHelper Google Places API helper
      */
-    public PlacesRepository(RealmHelperImpl mDbHelper, GooglePlacesApiHelperImpl mApiHelper) {
+    @Inject
+    public PlacesRepository(@RealmDB RealmHelperImpl mDbHelper, @PlacesAPI GooglePlacesApiHelperImpl mApiHelper) {
         this.mDbHelper = mDbHelper;
         this.mApiHelper = mApiHelper;
     }
