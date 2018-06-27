@@ -23,9 +23,7 @@ public class RealmHelperImpl implements RealmHelper {
      * @return save operation status
      */
     @Override
-    public boolean savePlaces(ArrayList<Place> places) {
-        // get realm instance
-        Realm realm = Realm.getDefaultInstance();
+    public boolean savePlaces(Realm realm, ArrayList<Place> places) {
         try {
             // begin write transaction
             realm.beginTransaction();
@@ -48,9 +46,7 @@ public class RealmHelperImpl implements RealmHelper {
      * @return list of all places
      */
     @Override
-    public ArrayList<Place> getPlaces() {
-        // get realm instance
-        Realm realm = Realm.getDefaultInstance();
+    public ArrayList<Place> getPlaces(Realm realm) {
         try {
             // begin read query
             RealmResults<Place> results = realm.where(Place.class).findAll();
@@ -73,9 +69,7 @@ public class RealmHelperImpl implements RealmHelper {
      * @return the place by it's ID
      */
     @Override
-    public Place getPlace(String id) {
-        // get realm instance
-        Realm realm = Realm.getDefaultInstance();
+    public Place getPlace(Realm realm, String id) {
         try {
             // begin read query
             Place place = realm.where(Place.class).equalTo("id", id).findFirst();
@@ -96,9 +90,7 @@ public class RealmHelperImpl implements RealmHelper {
      * @return delete operation status
      */
     @Override
-    public boolean deleteAll() {
-        // get realm instance
-        Realm realm = Realm.getDefaultInstance();
+    public boolean deleteAll(Realm realm) {
         try {
             // begin delete transaction
             realm.beginTransaction();

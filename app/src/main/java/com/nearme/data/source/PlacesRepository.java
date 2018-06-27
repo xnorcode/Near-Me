@@ -14,6 +14,7 @@ import javax.inject.Singleton;
 
 import io.reactivex.Observable;
 import io.reactivex.annotations.NonNull;
+import io.realm.Realm;
 import okhttp3.Response;
 
 /**
@@ -66,9 +67,9 @@ public class PlacesRepository implements PlacesDataSource {
                 })
                 .flatMap(places -> {
                     // clear cache
-                    mDbHelper.deleteAll();
+                    mDbHelper.deleteAll(Realm.getDefaultInstance());
                     // save places to cache
-                    return Observable.just(mDbHelper.savePlaces(places));
+                    return Observable.just(mDbHelper.savePlaces(Realm.getDefaultInstance(), places));
                 });
     }
 
@@ -94,9 +95,9 @@ public class PlacesRepository implements PlacesDataSource {
                 })
                 .flatMap(places -> {
                     // clear cache
-                    mDbHelper.deleteAll();
+                    mDbHelper.deleteAll(Realm.getDefaultInstance());
                     // save places to cache
-                    return Observable.just(mDbHelper.savePlaces(places));
+                    return Observable.just(mDbHelper.savePlaces(Realm.getDefaultInstance(), places));
                 });
     }
 
@@ -109,7 +110,7 @@ public class PlacesRepository implements PlacesDataSource {
     @Override
     public Observable<ArrayList<Place>> getPlaces() {
         return Observable.create(emitter -> {
-            emitter.onNext(mDbHelper.getPlaces());
+            emitter.onNext(mDbHelper.getPlaces(Realm.getDefaultInstance()));
             emitter.onComplete();
         });
     }
@@ -124,7 +125,7 @@ public class PlacesRepository implements PlacesDataSource {
     @Override
     public Observable<Place> getPlace(String id) {
         return Observable.create(emitter -> {
-            emitter.onNext(mDbHelper.getPlace(id));
+            emitter.onNext(mDbHelper.getPlace(Realm.getDefaultInstance(), id));
             emitter.onComplete();
         });
     }
@@ -138,7 +139,7 @@ public class PlacesRepository implements PlacesDataSource {
     @Override
     public Observable<Boolean> clearCache() {
         return Observable.create(emitter -> {
-            emitter.onNext(mDbHelper.deleteAll());
+            emitter.onNext(mDbHelper.deleteAll(Realm.getDefaultInstance()));
             emitter.onComplete();
         });
     }
