@@ -1,9 +1,11 @@
 package com.nearme.data.source.remote;
 
+import com.nearme.data.source.GoogleApiKey;
 import com.nearme.data.source.remote.utils.UrlBuilder;
 
 import java.io.IOException;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import okhttp3.Call;
@@ -17,10 +19,13 @@ import okhttp3.Request;
 public class GooglePlacesApiHelperImpl implements GooglePlacesApiHelper {
 
 
-    // Google Places API key
-    @PlacesApiKey
-    String apiKey;
+    private String apiKey;
 
+
+    @Inject
+    public GooglePlacesApiHelperImpl(@GoogleApiKey String key) {
+        this.apiKey = key;
+    }
 
     /**
      * Download nearby bars

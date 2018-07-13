@@ -1,5 +1,8 @@
 package com.nearme.data.source;
 
+import android.app.Application;
+
+import com.nearme.R;
 import com.nearme.data.source.local.RealmHelperImpl;
 import com.nearme.data.source.remote.GooglePlacesApiHelperImpl;
 
@@ -17,7 +20,6 @@ public class PlacesRepositoryModule {
 
     @Singleton
     @Provides
-    @RealmDB
     RealmHelperImpl provideLocalDataSource() {
         return new RealmHelperImpl();
     }
@@ -25,8 +27,15 @@ public class PlacesRepositoryModule {
 
     @Singleton
     @Provides
-    @PlacesAPI
-    GooglePlacesApiHelperImpl provideRemoteDataSource() {
-        return new GooglePlacesApiHelperImpl();
+    GooglePlacesApiHelperImpl provideRemoteDataSource(@GoogleApiKey String apiKey) {
+        return new GooglePlacesApiHelperImpl(apiKey);
+    }
+
+
+    @Singleton
+    @Provides
+    @GoogleApiKey
+    String providePlacesApiKey(Application context) {
+        return context.getApplicationContext().getString(R.string.google_api_key);
     }
 }
