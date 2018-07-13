@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import io.reactivex.Observable;
+import io.reactivex.Flowable;
 import io.reactivex.annotations.NonNull;
 import io.realm.Realm;
 import okhttp3.Response;
@@ -39,7 +39,7 @@ public class PlacesRepository implements PlacesDataSource {
      * @param mApiHelper Google Places API helper
      */
     @Inject
-    public PlacesRepository(@RealmDB RealmHelperImpl mDbHelper, @PlacesAPI GooglePlacesApiHelperImpl mApiHelper) {
+    public PlacesRepository(RealmHelperImpl mDbHelper, GooglePlacesApiHelperImpl mApiHelper) {
         this.mDbHelper = mDbHelper;
         this.mApiHelper = mApiHelper;
     }
@@ -55,21 +55,19 @@ public class PlacesRepository implements PlacesDataSource {
      * @throws IOException for network call
      */
     @Override
-    public Observable<Boolean> downloadAndCacheNearbyBars(@NonNull double lat, @NonNull double lng) throws IOException {
-        return Observable.just(mApiHelper.getNearbyBars(lat, lng))
+    public Flowable<Boolean> downloadAndCacheNearbyBars(@NonNull double lat, @NonNull double lng) throws IOException {
+        return Flowable.just(mApiHelper.getNearbyBars(lat, lng))
                 .map(call -> {
                     // execute network call
                     Response response = call.execute();
                     // get response json string
                     String json = response.body().string();
                     // extract data from response and return list of places
-                    return JsonTool.extractPlaces(json, ApiSource.NEARBY);
-                })
-                .flatMap(places -> {
+                    ArrayList<Place> places = JsonTool.extractPlaces(json, ApiSource.NEARBY);
                     // clear cache
                     mDbHelper.deleteAll(Realm.getDefaultInstance());
                     // save places to cache
-                    return Observable.just(mDbHelper.savePlaces(Realm.getDefaultInstance(), places));
+                    return mDbHelper.savePlaces(Realm.getDefaultInstance(), places);
                 });
     }
 
@@ -83,21 +81,19 @@ public class PlacesRepository implements PlacesDataSource {
      * @throws IOException for network call
      */
     @Override
-    public Observable<Boolean> searchAndCachePlace(@NonNull String name) throws IOException {
-        return Observable.just(mApiHelper.searchPlace(name))
+    public Flowable<Boolean> searchAndCachePlace(@NonNull String name) throws IOException {
+        return Flowable.just(mApiHelper.searchPlace(name))
                 .map(call -> {
                     // execute network call
                     Response response = call.execute();
                     // get response json string
                     String json = response.body().string();
                     // extract data from response and return list of places
-                    return JsonTool.extractPlaces(json, ApiSource.SEARCH);
-                })
-                .flatMap(places -> {
+                    ArrayList<Place> places = JsonTool.extractPlaces(json, ApiSource.SEARCH);
                     // clear cache
                     mDbHelper.deleteAll(Realm.getDefaultInstance());
                     // save places to cache
-                    return Observable.just(mDbHelper.savePlaces(Realm.getDefaultInstance(), places));
+                    return mDbHelper.savePlaces(Realm.getDefaultInstance(), places);
                 });
     }
 
@@ -108,11 +104,8 @@ public class PlacesRepository implements PlacesDataSource {
      * @return list of places
      */
     @Override
-    public Observable<ArrayList<Place>> getPlaces() {
-        return Observable.create(emitter -> {
-            emitter.onNext(mDbHelper.getPlaces(Realm.getDefaultInstance()));
-            emitter.onComplete();
-        });
+    public Flowable<ArrayList<Place>> getPlaces() {
+        return Flowable.just(mDbHelper.getPlaces(Realm.getDefaultInstance()));
     }
 
 
@@ -123,11 +116,8 @@ public class PlacesRepository implements PlacesDataSource {
      * @return operation status
      */
     @Override
-    public Observable<Place> getPlace(String id) {
-        return Observable.create(emitter -> {
-            emitter.onNext(mDbHelper.getPlace(Realm.getDefaultInstance(), id));
-            emitter.onComplete();
-        });
+    public Flowable<Place> getPlace(String id) {
+        return Flowable.just(mDbHelper.getPlace(Realm.getDefaultInstance(), id));
     }
 
 
@@ -137,11 +127,8 @@ public class PlacesRepository implements PlacesDataSource {
      * @return operation status
      */
     @Override
-    public Observable<Boolean> clearCache() {
-        return Observable.create(emitter -> {
-            emitter.onNext(mDbHelper.deleteAll(Realm.getDefaultInstance()));
-            emitter.onComplete();
-        });
+    public Flowable<Boolean> clearCache() {
+        return Flowable.just(mDbHelper.deleteAll(Realm.getDefaultInstance()));
     }
 
 }
