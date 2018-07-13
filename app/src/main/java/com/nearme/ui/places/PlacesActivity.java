@@ -52,7 +52,7 @@ public class PlacesActivity extends AppCompatActivity implements LocationManager
 
     // location manager
     @Inject
-    LocationManagerImpl mLocationManager;
+    LocationManager mLocationManager;
 
 
     @Override

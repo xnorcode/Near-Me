@@ -5,6 +5,7 @@ import android.app.Application;
 import com.nearme.NearMeApplication;
 import com.nearme.data.source.PlacesRepositoryModule;
 import com.nearme.data.source.remote.GooglePlacesApiModule;
+import com.nearme.location.LocationManagerModule;
 import com.nearme.ui.details.DetailsModule;
 import com.nearme.ui.places.PlacesModule;
 
@@ -21,6 +22,7 @@ import dagger.android.AndroidInjector;
 @Singleton
 @Component(modules = {GooglePlacesApiModule.class,
         PlacesRepositoryModule.class,
+        LocationManagerModule.class,
         PlacesModule.class,
         DetailsModule.class,
         ApplicationModule.class,

@@ -47,8 +47,13 @@ public class LocationManagerImpl implements LocationManager, GoogleApiClient.Con
     // Location Manager connection status
     private boolean ready;
 
-    @Inject
     Context mContext;
+
+
+    @Inject
+    public LocationManagerImpl(Context context) {
+        mContext = context;
+    }
 
 
     /**
