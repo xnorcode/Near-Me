@@ -4,6 +4,7 @@ import com.nearme.data.Place;
 
 import java.util.ArrayList;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import io.realm.Realm;
@@ -15,6 +16,10 @@ import io.realm.RealmResults;
 @Singleton
 public class RealmHelperImpl implements RealmHelper {
 
+
+    @Inject
+    public RealmHelperImpl() {
+    }
 
     /**
      * Save all places
