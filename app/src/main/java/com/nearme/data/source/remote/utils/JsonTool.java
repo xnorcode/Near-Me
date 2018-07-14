@@ -7,6 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by xnorcode on 07/04/2018.
@@ -23,9 +24,9 @@ public class JsonTool {
      * @return list with downloaded places
      * @throws JSONException JSON error
      */
-    public static ArrayList<Place> extractPlaces(String json, @ApiSource.SOURCE int source) throws JSONException {
+    public static List<Place> extractPlaces(String json, @ApiSource.SOURCE int source) throws JSONException {
         // init output list
-        ArrayList<Place> output = new ArrayList<>();
+        List<Place> output = new ArrayList<>();
         if (json == null || json.isEmpty()) return output;
         JSONObject obj = new JSONObject(json);
         if (!obj.has("results")) return output;
