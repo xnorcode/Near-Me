@@ -2,7 +2,7 @@ package com.nearme.data.source.local;
 
 import com.nearme.data.Place;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import io.realm.Realm;
 
@@ -17,13 +17,13 @@ public interface RealmHelper {
      * @param places a list of places
      * @return save operation status
      */
-    boolean savePlaces(Realm realm, ArrayList<Place> places);
+    boolean savePlaces(Realm realm, List<Place> places);
 
 
     /**
      * @return list of all places
      */
-    ArrayList<Place> getPlaces(Realm realm);
+    List<Place> getPlaces(Realm realm);
 
 
     /**

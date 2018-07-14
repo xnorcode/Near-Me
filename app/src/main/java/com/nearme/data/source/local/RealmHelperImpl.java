@@ -2,7 +2,7 @@ package com.nearme.data.source.local;
 
 import com.nearme.data.Place;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -28,7 +28,7 @@ public class RealmHelperImpl implements RealmHelper {
      * @return save operation status
      */
     @Override
-    public boolean savePlaces(Realm realm, ArrayList<Place> places) {
+    public boolean savePlaces(Realm realm, List<Place> places) {
         try {
             // begin write transaction
             realm.beginTransaction();
@@ -51,11 +51,11 @@ public class RealmHelperImpl implements RealmHelper {
      * @return list of all places
      */
     @Override
-    public ArrayList<Place> getPlaces(Realm realm) {
+    public List<Place> getPlaces(Realm realm) {
         try {
             // begin read query
             RealmResults<Place> results = realm.where(Place.class).findAll();
-            ArrayList<Place> places = (ArrayList<Place>) realm.copyFromRealm(results);
+            List<Place> places = realm.copyFromRealm(results);
             return places;
         } catch (Exception e) {
             e.printStackTrace();
