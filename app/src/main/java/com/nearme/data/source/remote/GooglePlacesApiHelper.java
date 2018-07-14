@@ -1,8 +1,8 @@
 package com.nearme.data.source.remote;
 
-import java.io.IOException;
+import com.nearme.data.Place;
 
-import okhttp3.Call;
+import java.util.List;
 
 /**
  * Created by xnorcode on 06/04/2018.
@@ -14,17 +14,15 @@ public interface GooglePlacesApiHelper {
     /**
      * @param lat the latitude
      * @param lng the longitude
-     * @return OkHttp network call response
-     * @throws IOException for network call
+     * @return a list of nearby places
      */
-    Call getNearbyBars(double lat, double lng) throws IOException;
+    List<Place> getNearbyBars(double lat, double lng);
 
 
     /**
      * @param name the name of place to be searched
-     * @return OkHttp network call response
-     * @throws IOException for network call
+     * @return a list of places
      */
-    Call searchPlace(String name) throws IOException;
+    List<Place> searchPlace(String name);
 
 }
