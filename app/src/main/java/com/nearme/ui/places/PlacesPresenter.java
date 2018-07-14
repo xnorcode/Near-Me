@@ -2,8 +2,6 @@ package com.nearme.ui.places;
 
 import com.nearme.data.source.PlacesRepository;
 
-import java.io.IOException;
-
 import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -77,18 +75,12 @@ public class PlacesPresenter implements PlacesContract.Presenter {
      */
     @Override
     public void getNearbyBars(double lat, double lng) {
-        try {
-            Disposable disposable = mPlacesRepository.downloadAndCacheNearbyBars(lat, lng)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(status -> {
-                        if (mView != null) mView.onDownloadCompleted();
-                    });
-            mCompositeDisposable.add(disposable);
-        } catch (IOException e) {
-            e.printStackTrace();
-            mView.showError(e.getMessage());
-        }
+        Disposable disposable = mPlacesRepository.downloadAndCacheNearbyBars(lat, lng)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(status -> mView.onDownloadCompleted(),
+                        t -> mView.showError(t.getMessage()));
+        mCompositeDisposable.add(disposable);
     }
 
 
@@ -99,18 +91,12 @@ public class PlacesPresenter implements PlacesContract.Presenter {
      */
     @Override
     public void searchPlace(String placeName) {
-        try {
-            Disposable disposable = mPlacesRepository.searchAndCachePlace(placeName)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(status -> {
-                        if (mView != null) mView.onDownloadCompleted();
-                    });
-            mCompositeDisposable.add(disposable);
-        } catch (IOException e) {
-            e.printStackTrace();
-            mView.showError(e.getMessage());
-        }
+        Disposable disposable = mPlacesRepository.searchAndCachePlace(placeName)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(status -> mView.onDownloadCompleted(),
+                        t -> mView.showError(t.getMessage()));
+        mCompositeDisposable.add(disposable);
     }
 
 
@@ -135,9 +121,8 @@ public class PlacesPresenter implements PlacesContract.Presenter {
         Disposable disposable = mPlacesRepository.getPlaces()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(places -> {
-                    if (mView != null) mView.showPlaces(places, lat, lng);
-                });
+                .subscribe(places -> mView.showPlaces(places, lat, lng),
+                        t -> mView.showError(t.getMessage()));
         mCompositeDisposable.add(disposable);
     }
 }

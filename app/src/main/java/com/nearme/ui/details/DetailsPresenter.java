@@ -70,15 +70,11 @@ public class DetailsPresenter implements DetailsContract.Presenter {
      */
     @Override
     public void getPlace(String id) {
-        try {
-            Disposable disposable = mPlacesRepository.getPlace(id)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(place -> mView.showPlace(place));
-            mCompositeDisposable.add(disposable);
-        } catch (Exception e) {
-            e.printStackTrace();
-            mView.showError(e.getMessage());
-        }
+        Disposable disposable = mPlacesRepository.getPlace(id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(place -> mView.showPlace(place),
+                        throwable -> mView.showError(throwable.getMessage()));
+        mCompositeDisposable.add(disposable);
     }
 }

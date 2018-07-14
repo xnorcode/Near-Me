@@ -3,19 +3,17 @@ package com.nearme.data.source;
 import com.nearme.data.Place;
 import com.nearme.data.source.local.RealmHelperImpl;
 import com.nearme.data.source.remote.GooglePlacesApiHelperImpl;
-import com.nearme.data.source.remote.utils.ApiSource;
-import com.nearme.data.source.remote.utils.JsonTool;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
 import io.reactivex.annotations.NonNull;
 import io.realm.Realm;
-import okhttp3.Response;
 
 /**
  * Created by xnorcode on 09/04/2018.
@@ -55,15 +53,16 @@ public class PlacesRepository implements PlacesDataSource {
      * @throws IOException for network call
      */
     @Override
-    public Flowable<Boolean> downloadAndCacheNearbyBars(@NonNull double lat, @NonNull double lng) throws IOException {
-        return Flowable.just(mApiHelper.getNearbyBars(lat, lng))
-                .map(call -> {
-                    // execute network call
-                    Response response = call.execute();
-                    // get response json string
-                    String json = response.body().string();
-                    // extract data from response and return list of places
-                    ArrayList<Place> places = JsonTool.extractPlaces(json, ApiSource.NEARBY);
+    public Flowable<Boolean> downloadAndCacheNearbyBars(@NonNull double lat, @NonNull double lng) {
+        return Flowable.<List<Place>>create(emitter -> {
+            List<Place> places = mApiHelper.getNearbyBars(lat, lng);
+            if (places != null)
+                emitter.onNext(places);
+            else
+                emitter.onError(new Exception("Could not get nearby places..."));
+            emitter.onComplete();
+        }, BackpressureStrategy.ERROR)
+                .map(places -> {
                     // clear cache
                     mDbHelper.deleteAll(Realm.getDefaultInstance());
                     // save places to cache
@@ -81,15 +80,16 @@ public class PlacesRepository implements PlacesDataSource {
      * @throws IOException for network call
      */
     @Override
-    public Flowable<Boolean> searchAndCachePlace(@NonNull String name) throws IOException {
-        return Flowable.just(mApiHelper.searchPlace(name))
-                .map(call -> {
-                    // execute network call
-                    Response response = call.execute();
-                    // get response json string
-                    String json = response.body().string();
-                    // extract data from response and return list of places
-                    ArrayList<Place> places = JsonTool.extractPlaces(json, ApiSource.SEARCH);
+    public Flowable<Boolean> searchAndCachePlace(@NonNull String name) {
+        return Flowable.<List<Place>>create(emitter -> {
+            List<Place> places = mApiHelper.searchPlace(name);
+            if (places != null)
+                emitter.onNext(places);
+            else
+                emitter.onError(new Exception("Could not find place..."));
+            emitter.onComplete();
+        }, BackpressureStrategy.ERROR)
+                .map(places -> {
                     // clear cache
                     mDbHelper.deleteAll(Realm.getDefaultInstance());
                     // save places to cache
@@ -104,7 +104,7 @@ public class PlacesRepository implements PlacesDataSource {
      * @return list of places
      */
     @Override
-    public Flowable<ArrayList<Place>> getPlaces() {
+    public Flowable<List<Place>> getPlaces() {
         return Flowable.just(mDbHelper.getPlaces(Realm.getDefaultInstance()));
     }
 

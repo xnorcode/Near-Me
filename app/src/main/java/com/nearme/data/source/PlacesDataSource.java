@@ -2,8 +2,7 @@ package com.nearme.data.source;
 
 import com.nearme.data.Place;
 
-import java.io.IOException;
-import java.util.ArrayList;
+import java.util.List;
 
 import io.reactivex.Flowable;
 import io.reactivex.annotations.NonNull;
@@ -19,23 +18,21 @@ public interface PlacesDataSource {
      * @param lat the latitude
      * @param lng the longitude
      * @return operation status
-     * @throws IOException for network call
      */
-    Flowable<Boolean> downloadAndCacheNearbyBars(@NonNull double lat, @NonNull double lng) throws IOException;
+    Flowable<Boolean> downloadAndCacheNearbyBars(@NonNull double lat, @NonNull double lng);
 
 
     /**
      * @param name the name of place to be searched
      * @return operation status
-     * @throws IOException for network call
      */
-    Flowable<Boolean> searchAndCachePlace(@NonNull String name) throws IOException;
+    Flowable<Boolean> searchAndCachePlace(@NonNull String name);
 
 
     /**
      * @return a list of places
      */
-    Flowable<ArrayList<Place>> getPlaces();
+    Flowable<List<Place>> getPlaces();
 
 
     /**
