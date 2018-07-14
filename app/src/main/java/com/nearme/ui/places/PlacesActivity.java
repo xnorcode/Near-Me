@@ -12,7 +12,6 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -29,8 +28,9 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import dagger.android.support.DaggerAppCompatActivity;
 
-public class PlacesActivity extends AppCompatActivity implements LocationManager.Callback {
+public class PlacesActivity extends DaggerAppCompatActivity implements LocationManager.Callback {
 
 
     @BindView(R.id.tab_layout)

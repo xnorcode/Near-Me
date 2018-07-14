@@ -3,7 +3,6 @@ package com.nearme.ui.details;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,12 +18,13 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import dagger.android.support.DaggerFragment;
 
 /**
  * Created by xnorcode on 10/04/2018.
  */
 
-public class DetailsFragment extends Fragment implements DetailsContract.View {
+public class DetailsFragment extends DaggerFragment implements DetailsContract.View {
 
 
     @BindView(R.id.details_place_name)

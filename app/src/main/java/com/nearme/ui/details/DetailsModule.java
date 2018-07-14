@@ -2,6 +2,7 @@ package com.nearme.ui.details;
 
 import dagger.Binds;
 import dagger.Module;
+import dagger.android.ContributesAndroidInjector;
 
 /**
  * Created by xnorcode on 15/05/2018.
@@ -9,6 +10,8 @@ import dagger.Module;
 @Module
 public abstract class DetailsModule {
 
+    @ContributesAndroidInjector
+    abstract DetailsFragment contributeFragmentInjector();
 
     @Binds
     abstract DetailsContract.Presenter detailsPresenter(DetailsPresenter presenter);
