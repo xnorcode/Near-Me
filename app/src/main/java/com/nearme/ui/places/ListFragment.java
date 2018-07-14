@@ -17,7 +17,7 @@ import com.nearme.R;
 import com.nearme.data.Place;
 import com.nearme.ui.details.DetailsActivity;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -107,7 +107,7 @@ public class ListFragment extends Fragment implements PlacesContract.View {
      * @param lng    longitude of user's current location
      */
     @Override
-    public void showPlaces(ArrayList<Place> places, double lat, double lng) {
+    public void showPlaces(List<Place> places, double lat, double lng) {
         Location location = new Location("LocationManager");
         location.setLatitude(lat);
         location.setLongitude(lng);

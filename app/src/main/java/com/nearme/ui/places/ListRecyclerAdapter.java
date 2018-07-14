@@ -12,7 +12,7 @@ import com.nearme.data.Place;
 import com.nearme.utils.PlacesHelper;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by xnorcode on 08/04/2018.
@@ -22,7 +22,7 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<ListViewHolder> {
 
 
     // List of places
-    private ArrayList<Place> mPlaces;
+    private List<Place> mPlaces;
 
 
     // user's current location
@@ -48,7 +48,7 @@ public class ListRecyclerAdapter extends RecyclerView.Adapter<ListViewHolder> {
      *
      * @param places list
      */
-    public void swapData(ArrayList<Place> places, Location location) {
+    public void swapData(List<Place> places, Location location) {
         mPlaces = places;
         mCurrentLocation = location;
         notifyDataSetChanged();

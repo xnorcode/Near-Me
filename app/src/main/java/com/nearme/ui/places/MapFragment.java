@@ -15,7 +15,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.nearme.data.Place;
 import com.nearme.ui.details.DetailsActivity;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by xnorcode on 08/04/2018.
@@ -94,7 +94,7 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
      * @param lng    longitude of user's current location
      */
     @Override
-    public void showPlaces(ArrayList<Place> places, double lat, double lng) {
+    public void showPlaces(List<Place> places, double lat, double lng) {
         Location location = new Location("LocationManager");
         location.setLatitude(lat);
         location.setLongitude(lng);
@@ -132,7 +132,7 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
      * @param places
      */
     @SuppressLint("MissingPermission")
-    private void drawMap(ArrayList<Place> places, Location userLocation) {
+    private void drawMap(List<Place> places, Location userLocation) {
         if (mGoogleMap == null || places == null || places.size() == 0) return;
         // clear previous markers
         mGoogleMap.clear();

@@ -4,7 +4,7 @@ import com.nearme.data.Place;
 import com.nearme.ui.base.BasePresenter;
 import com.nearme.ui.base.BaseView;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by xnorcode on 09/04/2018.
@@ -20,11 +20,11 @@ public class PlacesContract {
 
 
         /**
-         * @param places ArrayList of all places
+         * @param places List of all places
          * @param lat    latitude of user's current location
          * @param lng    longitude of user's current location
          */
-        void showPlaces(ArrayList<Place> places, double lat, double lng);
+        void showPlaces(List<Place> places, double lat, double lng);
 
 
         /**
