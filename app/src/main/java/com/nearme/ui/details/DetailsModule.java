@@ -13,6 +13,9 @@ public abstract class DetailsModule {
     @ContributesAndroidInjector
     abstract DetailsFragment contributeFragmentInjector();
 
+    @ContributesAndroidInjector
+    abstract DetailsActivity contributesActivityInjector();
+
     @Binds
     abstract DetailsContract.Presenter detailsPresenter(DetailsPresenter presenter);
 

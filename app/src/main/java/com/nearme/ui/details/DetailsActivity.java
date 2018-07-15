@@ -3,16 +3,17 @@ package com.nearme.ui.details;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 
 import com.nearme.R;
 import com.nearme.data.Place;
+
+import dagger.android.support.DaggerAppCompatActivity;
 
 /**
  * Created by xnorcode on 10/04/2018.
  */
 
-public class DetailsActivity extends AppCompatActivity {
+public class DetailsActivity extends DaggerAppCompatActivity {
 
 
     @Override
